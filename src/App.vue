@@ -28,13 +28,14 @@ const showNav = computed(() => {
 
 // Redirect to login if auth is cleared but still on protected page
 watch(
-  () => auth.effectiveRole,
-  (newRole) => {
+  [() => auth.effectiveRole, () => route.name],
+  ([newRole, routeName]) => {
     const authPages = ["login", "role-select"];
-    if (!newRole && route.name && !authPages.includes(route.name)) {
+    if (!newRole && routeName && !authPages.includes(routeName)) {
       router.push("/");
     }
   },
+  { immediate: true },
 );
 </script>
 
