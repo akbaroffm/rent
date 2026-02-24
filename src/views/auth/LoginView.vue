@@ -33,10 +33,24 @@
         <button
           @click="handleSendSms"
           :disabled="phoneInput.length < 9"
-          class="btn-primary rounded-lg"
+          class="btn-primary rounded-xl"
         >
           Davom etish
         </button>
+
+        <div class="mt-3 p-3 rounded-xl bg-[var(--color-bg-secondary)]">
+          <p
+            class="text-[11px] font-semibold text-[var(--color-text-secondary)] mb-1"
+          >
+            Demo kirish (status test uchun)
+          </p>
+          <p class="text-xs text-[var(--color-text-secondary)]">
+            Bron qiluvchi: <span class="font-semibold">90 123 45 67</span>
+          </p>
+          <p class="text-xs text-[var(--color-text-secondary)]">
+            Uy egasi: <span class="font-semibold">90 123 45 68</span>
+          </p>
+        </div>
       </div>
 
       <!-- SMS Code input -->
@@ -58,16 +72,18 @@
             @keydown.backspace="onCodeBackspace(i)"
           />
         </div>
-        <button
-          @click="handleVerify"
-          :disabled="codeDigits.join('').length < 4"
-          class="btn-primary mb-3"
-        >
-          Tasdiqlash
-        </button>
-        <button @click="auth.step = 'phone'" class="btn-secondary">
-          Orqaga
-        </button>
+        <div class="grid grid-cols-2 gap-2">
+          <button @click="auth.step = 'phone'" class="btn-secondary rounded-xl">
+            Orqaga
+          </button>
+          <button
+            @click="handleVerify"
+            :disabled="codeDigits.join('').length < 4"
+            class="btn-primary rounded-xl"
+          >
+            Tasdiqlash
+          </button>
+        </div>
       </div>
 
       <!-- Quick demo access -->
@@ -132,7 +148,11 @@ function onCodeBackspace(index) {
 function handleVerify() {
   const code = codeDigits.value.join("");
   if (auth.verifyCode(code)) {
-    router.push("/role-select");
+    // Auto-select "user" role and route based on persona
+    auth.selectRole("user");
+    const target =
+      auth.user?.personaRole === "owner" ? "/owner/bookings" : "/tenant";
+    router.push(target);
   }
 }
 

@@ -11,9 +11,16 @@ function parseStorage(key, fallback) {
   }
 }
 
+function normalizePhone(value = "") {
+  const digits = String(value).replace(/\D/g, "");
+  if (digits.startsWith("998")) return "+" + digits;
+  return "+998" + digits;
+}
+
 export const useAuthStore = defineStore("auth", () => {
   const user = ref(parseStorage("rent_user", null));
   const role = ref(localStorage.getItem("rent_role") || null); // user, admin
+  const effectiveRole = computed(() => role.value || user.value?.role || null);
   const isAuthenticated = computed(() => !!user.value);
   const phone = ref("");
   const smsCode = ref("");
@@ -47,7 +54,7 @@ export const useAuthStore = defineStore("auth", () => {
   );
 
   function sendSms(phoneNumber) {
-    phone.value = phoneNumber;
+    phone.value = normalizePhone(phoneNumber);
     step.value = "code";
   }
 
@@ -64,18 +71,34 @@ export const useAuthStore = defineStore("auth", () => {
   function selectRole(selectedRole) {
     role.value = selectedRole;
     localStorage.setItem("rent_role", selectedRole);
-    // Find or create mock user
-    const mockUser = mockUsers.find((u) => u.role === selectedRole) ||
-      (selectedRole === "user"
-        ? mockUsers.find((u) => u.role === "tenant")
-        : null) || {
-        id: "u_new",
-        name: "Foydalanuvchi",
-        phone: phone.value,
-        role: selectedRole,
-        verified: false,
-      };
-    user.value = { ...mockUser, phone: phone.value };
+    const normalizedPhone = normalizePhone(phone.value);
+
+    let mockUser = null;
+    if (selectedRole === "user") {
+      mockUser =
+        mockUsers.find(
+          (u) =>
+            normalizePhone(u.phone) === normalizedPhone &&
+            ["tenant", "owner"].includes(u.role),
+        ) || mockUsers.find((u) => u.role === "tenant");
+    } else {
+      mockUser = mockUsers.find((u) => u.role === selectedRole);
+    }
+
+    const baseUser = mockUser || {
+      id: "u_new",
+      name: "Foydalanuvchi",
+      phone: normalizedPhone,
+      role: selectedRole,
+      verified: false,
+    };
+
+    user.value = {
+      ...baseUser,
+      phone: normalizedPhone,
+      role: selectedRole,
+      personaRole: mockUser?.role || selectedRole,
+    };
     localStorage.setItem("rent_user", JSON.stringify(user.value));
   }
 
@@ -125,6 +148,7 @@ export const useAuthStore = defineStore("auth", () => {
   return {
     user,
     role,
+    effectiveRole,
     isAuthenticated,
     phone,
     smsCode,

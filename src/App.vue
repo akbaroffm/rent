@@ -10,27 +10,41 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
-import BottomNav from '@/components/BottomNav.vue'
+import { computed, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+import BottomNav from "@/components/BottomNav.vue";
 
-const route = useRoute()
-const auth = useAuthStore()
+const route = useRoute();
+const router = useRouter();
+const auth = useAuthStore();
 
 // Only hide nav on these specific full-screen pages
-const hideNavRoutes = ['login', 'role-select']
+const hideNavRoutes = ["login", "role-select"];
 const showNav = computed(() => {
-  if (route.name && hideNavRoutes.includes(route.name)) return false
-  return !!auth.role
-})
+  if (route.name && hideNavRoutes.includes(route.name)) return false;
+  return !!auth.effectiveRole;
+});
+
+// Redirect to login if auth is cleared but still on protected page
+watch(
+  () => auth.effectiveRole,
+  (newRole) => {
+    const authPages = ["login", "role-select"];
+    if (!newRole && route.name && !authPages.includes(route.name)) {
+      router.push("/");
+    }
+  },
+);
 </script>
 
 <style>
 /* Page transition: fade + slight slide up */
 .page-fade-enter-active,
 .page-fade-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 .page-fade-enter-from {
   opacity: 0;
@@ -41,4 +55,3 @@ const showNav = computed(() => {
   transform: translateY(-4px);
 }
 </style>
-

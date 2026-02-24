@@ -63,7 +63,7 @@
             {{ n.title }}
           </h4>
           <p
-            class="text-[13px] text-[var(--color-text-secondary)] leading-relaxed mb-2"
+            class="text-[13px] text-[var(--color-text-secondary)] leading-relaxed"
           >
             {{ n.message }}
           </p>

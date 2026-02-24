@@ -26,11 +26,11 @@ export const useDealsStore = defineStore("deals", () => {
     return deals.value.filter((d) => d.ownerId === ownerId);
   }
 
-  // Get deals where this userId is the confirmer (whoever posted the listing)
+  // Get deals waiting for homeowner confirmation
   function getDealsToConfirm(userId) {
     return deals.value.filter(
       (d) =>
-        d.confirmerId === userId &&
+        d.ownerId === userId &&
         d.escrowStatus === ESCROW_STATUS.AWAITING_OWNER_CONFIRM,
     );
   }
@@ -92,7 +92,7 @@ export const useDealsStore = defineStore("deals", () => {
     const targetRoute = `/owner/bookings?dealId=${newDeal.id}`;
 
     getNotifStore().addNotification({
-      userId: newDeal.confirmerId,
+      userId: newDeal.ownerId,
       title: "Yangi bron so'rovi",
       message: `Ijarachi sizning uyingizni bron qildi. Ijara narxi: ${formatPrice(newDeal.rentAmount)}. Tasdiqlashingiz kutilmoqda.`,
       type: "warning",
@@ -101,9 +101,6 @@ export const useDealsStore = defineStore("deals", () => {
 
     return newDeal.id;
   }
-
-  // confirmer = whoever posted the listing (createdBy)
-  // This is set during createDeal from BookingCheckout
 
   function updateDealStatus(dealId, newStatus, note = "") {
     const deal = deals.value.find((d) => d.id === dealId);
@@ -142,6 +139,7 @@ export const useDealsStore = defineStore("deals", () => {
         title: "Bron tasdiqlandi \uD83C\uDF89",
         message: `Tabriklaymiz! Sizning broningiz tasdiqlandi. Ko'chib kirish vaqti keldi.`,
         type: "success",
+        link: `/tenant/escrow/${deal.id}`,
       });
     } else if (
       newStatus === ESCROW_STATUS.CANCELLED ||

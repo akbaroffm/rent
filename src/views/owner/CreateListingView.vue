@@ -151,7 +151,7 @@
         </div>
 
         <button
-          @click="step = 2"
+          @click="goToStep(2)"
           class="btn-primary mt-2 rounded-xl"
           :disabled="!form.title || !form.address"
         >
@@ -243,11 +243,11 @@
         </div>
 
         <div class="flex gap-3 mt-2">
-          <button @click="step = 1" class="btn-secondary flex-1 rounded-xl">
+          <button @click="goToStep(1)" class="btn-secondary flex-1 rounded-xl">
             Orqaga
           </button>
           <button
-            @click="step = 3"
+            @click="goToStep(3)"
             class="btn-primary flex-1 rounded-xl"
             :disabled="!form.price"
           >
@@ -289,7 +289,7 @@
         </div>
 
         <div class="flex gap-3 mt-2">
-          <button @click="step = 2" class="btn-secondary flex-1 rounded-xl">
+          <button @click="goToStep(2)" class="btn-secondary flex-1 rounded-xl">
             Orqaga
           </button>
           <button
@@ -475,6 +475,16 @@ onMounted(() => {
     }
   }
 });
+
+function goToStep(newStep) {
+  step.value = newStep;
+  // Scroll to top on page container
+  const pageElement = document.querySelector(".page");
+  if (pageElement) {
+    pageElement.scrollTop = 0;
+  }
+  window.scrollTo(0, 0);
+}
 
 function submitListing() {
   const data = {

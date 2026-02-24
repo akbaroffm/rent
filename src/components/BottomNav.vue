@@ -53,15 +53,19 @@ function isActive(to) {
 }
 
 const navItems = computed(() => {
-  switch (auth.role) {
-    case "user":
+  switch (auth.effectiveRole) {
+    case "user": {
+      const ownerPersona = auth.user?.personaRole === "owner";
       return [
         { to: "/tenant", icon: Home, label: "Bosh sahifa" },
+        ownerPersona
+          ? { to: "/owner/bookings", icon: ClipboardList, label: "So'rovlar" }
+          : { to: "/tenant/deals", icon: ClipboardList, label: "Bitimlar" },
         { to: "/owner/listings", icon: Building2, label: "E'lonlarim" },
         { to: "/owner/create", icon: Plus, label: "Qo'shish" },
-        { to: "/tenant/deals", icon: ClipboardList, label: "Bitimlar" },
         { to: "/tenant/profile", icon: User, label: "Profil" },
       ];
+    }
     case "admin":
       return [
         { to: "/admin", icon: Shield, label: "Panel" },

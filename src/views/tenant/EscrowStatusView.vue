@@ -24,12 +24,14 @@
         v-if="deal.escrowStatus === 'CHECKIN_PENDING'"
         class="space-y-3 mb-4"
       >
-        <button @click="confirmCheckin" class="btn-primary">
-          <CheckCircle :size="18" /> Ko'chib kirdim (tasdiqlayman)
-        </button>
-        <button @click="showDisputeForm = true" class="btn-danger">
-          <AlertCircle :size="18" /> Muammo bor
-        </button>
+        <div class="grid grid-cols-2 gap-2">
+          <button @click="confirmCheckin" class="btn-primary rounded-xl">
+            <CheckCircle :size="18" /> Tasdiqlayman
+          </button>
+          <button @click="showDisputeForm = true" class="btn-danger rounded-xl">
+            <AlertCircle :size="18" /> Muammo bor
+          </button>
+        </div>
       </div>
 
       <!-- Dispute form -->

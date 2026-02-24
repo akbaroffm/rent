@@ -30,7 +30,7 @@ export const PAYMENT_STATUS_LABELS = {
 
 export const ESCROW_STATUS_LABELS = {
   CREATED: "Yaratildi",
-  AWAITING_OWNER_CONFIRM: "Kutilmoqda",
+  AWAITING_OWNER_CONFIRM: "Uy egasi tasdig'i kutilmoqda",
   CONFIRMED: "Tasdiqlangan",
   FUNDS_HELD: "Platformada ushlab turildi",
   CHECKIN_PENDING: "Ko'chib kirish kutilmoqda",

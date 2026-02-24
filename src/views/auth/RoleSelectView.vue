@@ -37,7 +37,7 @@
     <button
       @click="confirm"
       :disabled="!selected"
-      class="btn-primary mt-8 max-w-[340px] mx-auto"
+      class="btn-primary mt-8 max-w-[340px] mx-auto rounded-xl"
     >
       Davom etish
     </button>
@@ -80,8 +80,13 @@ function selectRole(role) {
 function confirm() {
   if (selected.value) {
     auth.selectRole(selected.value);
-    const routes = { user: "/tenant", admin: "/admin" };
-    router.push(routes[selected.value]);
+    if (selected.value === "user") {
+      const target =
+        auth.user?.personaRole === "owner" ? "/owner/bookings" : "/tenant";
+      router.push(target);
+      return;
+    }
+    router.push("/admin");
   }
 }
 </script>

@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
+import { useAuthStore } from "./auth";
 import { mockListings } from "@/data/mock";
 
 export const useListingsStore = defineStore("listings", () => {

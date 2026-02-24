@@ -58,7 +58,7 @@
       </div>
 
       <!-- Menu items -->
-      <div class="space-y-1">
+      <div class="space-y-0.5">
         <router-link
           to="/tenant/deals"
           class="flex items-center gap-3 p-3 rounded-xl no-underline text-[var(--color-text)] hover:bg-[var(--color-bg-secondary)] transition-colors"

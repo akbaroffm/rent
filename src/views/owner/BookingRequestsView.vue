@@ -17,37 +17,39 @@
           class="border border-[var(--color-border)] rounded-xl p-4 active:bg-[var(--color-bg-secondary)] transition-colors cursor-pointer"
           @click="selectedDeal = deal"
         >
-          <div class="flex items-center justify-between mb-2">
-            <p class="font-semibold text-sm truncate">
-              {{ getListing(deal.listingId)?.title }}
-            </p>
-            <StatusBadge :status="deal.escrowStatus" />
-          </div>
-          <div class="flex items-center gap-2 mb-3">
-            <div
-              class="w-8 h-8 rounded-full bg-[var(--color-primary-light)] flex items-center justify-center shrink-0"
-            >
-              <User :size="14" class="text-[var(--color-primary)]" />
-            </div>
-            <div>
-              <p class="text-[13px] font-medium">
-                {{ getTenant(deal.tenantId)?.name }}
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <p class="font-semibold text-sm truncate">
+                {{ getListing(deal.listingId)?.title }}
               </p>
-              <p class="text-[11px] text-[var(--color-text-secondary)]">
-                {{ getTenant(deal.tenantId)?.phone }}
-              </p>
+              <StatusBadge :status="deal.escrowStatus" />
             </div>
-          </div>
-          <div class="grid grid-cols-2 gap-2 text-sm">
-            <div class="bg-[var(--color-bg-secondary)] rounded-lg p-2">
-              <p
-                class="text-[10px] text-[var(--color-text-secondary)] uppercase tracking-wider"
+            <div class="flex items-center gap-2 mb-3">
+              <div
+                class="w-8 h-8 rounded-full bg-[var(--color-primary-light)] flex items-center justify-center shrink-0"
               >
-                Ijara
-              </p>
-              <p class="font-bold text-sm">
-                {{ formatPrice(deal.rentAmount) }}
-              </p>
+                <User :size="14" class="text-[var(--color-primary)]" />
+              </div>
+              <div>
+                <p class="text-[13px] font-medium">
+                  {{ getTenant(deal.tenantId)?.name }}
+                </p>
+                <p class="text-[11px] text-[var(--color-text-secondary)]">
+                  {{ getTenant(deal.tenantId)?.phone }}
+                </p>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-sm">
+              <div class="bg-[var(--color-bg-secondary)] rounded-lg p-2">
+                <p
+                  class="text-[10px] text-[var(--color-text-secondary)] uppercase tracking-wider"
+                >
+                  Ijara
+                </p>
+                <p class="font-bold text-sm">
+                  {{ formatPrice(deal.rentAmount) }}
+                </p>
+              </div>
             </div>
           </div>
           <div
@@ -90,7 +92,7 @@
               @click="selectedDeal = null"
             ></div>
 
-            <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center justify-between mb-2">
               <h2 class="text-xl font-bold">Ariza tafsilotlari</h2>
               <button
                 @click="selectedDeal = null"
@@ -175,69 +177,72 @@
             </div>
 
             <!-- Actions -->
-            <div
-              v-if="
-                selectedDeal.escrowStatus ===
-                  ESCROW_STATUS.AWAITING_OWNER_CONFIRM &&
-                selectedDeal.confirmerId === auth.user?.id
-              "
-              class="flex gap-3"
-            >
-              <button
-                @click="confirmBooking(selectedDeal.id)"
-                class="btn-primary flex-1 rounded-xl"
+            <div class="mt-4 space-y-3">
+              <div
+                v-if="
+                  selectedDeal.escrowStatus ===
+                    ESCROW_STATUS.AWAITING_OWNER_CONFIRM &&
+                  selectedDeal.ownerId === auth.user?.id
+                "
+                class="flex gap-3"
               >
-                <CheckCircle :size="18" /> Tasdiqlash
-              </button>
-              <button
-                @click="cancelBooking(selectedDeal.id)"
-                class="btn-secondary flex-1 text-[var(--color-danger)] border-[var(--color-danger)] rounded-xl"
-              >
-                Rad etish
-              </button>
-            </div>
-            <div
-              v-else-if="
-                selectedDeal.escrowStatus === ESCROW_STATUS.RENTAL_ACTIVE
-              "
-              class="space-y-4"
-            >
-              <div class="h-px bg-[var(--color-border)]"></div>
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-[var(--color-text-secondary)]"
-                  >Oxirgi to'lov:</span
+                <button
+                  @click="confirmBooking(selectedDeal.id)"
+                  class="btn-primary flex-1 rounded-xl"
                 >
-                <span
-                  class="text-sm font-bold"
-                  :class="
-                    selectedDeal.payments?.[selectedDeal.payments.length - 1]
-                      ?.status === 'PAID'
-                      ? 'text-[var(--color-success)]'
-                      : 'text-[var(--color-warning)]'
-                  "
+                  <CheckCircle :size="18" /> Tasdiqlash
+                </button>
+                <button
+                  @click="cancelBooking(selectedDeal.id)"
+                  class="btn-secondary flex-1 text-[var(--color-danger)] border-[var(--color-danger)] rounded-xl"
                 >
-                  {{
-                    PAYMENT_STATUS_LABELS[
-                      selectedDeal.payments?.[selectedDeal.payments.length - 1]
-                        ?.status
-                    ]
-                  }}
-                </span>
+                  Rad etish
+                </button>
               </div>
-              <router-link
-                :to="`/shared/agreement/${selectedDeal.id}`"
-                class="btn-secondary w-full text-center py-3 text-sm font-bold no-underline flex items-center justify-center gap-2"
+              <div
+                v-else-if="
+                  selectedDeal.escrowStatus === ESCROW_STATUS.RENTAL_ACTIVE
+                "
+                class="space-y-4"
               >
-                <FileText :size="16" /> Shartnomani ko'rish
-              </router-link>
+                <div class="h-px bg-[var(--color-border)]"></div>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-[var(--color-text-secondary)]"
+                    >Oxirgi to'lov:</span
+                  >
+                  <span
+                    class="text-sm font-bold"
+                    :class="
+                      selectedDeal.payments?.[selectedDeal.payments.length - 1]
+                        ?.status === 'PAID'
+                        ? 'text-[var(--color-success)]'
+                        : 'text-[var(--color-warning)]'
+                    "
+                  >
+                    {{
+                      PAYMENT_STATUS_LABELS[
+                        selectedDeal.payments?.[
+                          selectedDeal.payments.length - 1
+                        ]?.status
+                      ]
+                    }}
+                  </span>
+                </div>
+                <router-link
+                  :to="`/shared/agreement/${selectedDeal.id}`"
+                  class="btn-secondary w-full text-center py-3 text-sm font-bold no-underline flex items-center justify-center gap-2"
+                >
+                  <FileText :size="16" /> Shartnomani ko'rish
+                </router-link>
+              </div>
+              <button
+                v-else
+                @click="selectedDeal = null"
+                class="btn-primary w-full"
+              >
+                Yopish
+              </button>
             </div>
-            <button
-              v-else
-              @click="selectedDeal = null"
-              class="btn-primary w-full"
-            >
-              Yopish
-            </button>
           </div>
         </Transition>
       </div>

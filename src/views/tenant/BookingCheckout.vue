@@ -233,7 +233,7 @@
       </div>
 
       <!-- Booking footer -->
-      <div class="mt-6 mb-4 pb-4 border-t border-[var(--color-border)]">
+      <div class="mt-6 pb-4 border-t border-[var(--color-border)]">
         <div class="flex items-center gap-3 mt-4">
           <div class="flex-1">
             <p class="text-xs text-[var(--color-text-secondary)]">
@@ -353,7 +353,7 @@ function handleBook() {
 
   const platformFee = calculatePlatformFee(listing.value.price);
 
-  const confirmerId = listing.value.createdBy || listing.value.ownerId;
+  const confirmerId = listing.value.ownerId;
 
   const dealId = dealsStore.createDeal({
     listingId: listing.value.id,
