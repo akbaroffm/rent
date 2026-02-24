@@ -64,7 +64,7 @@
       <Transition name="slide-up">
         <div
           v-if="selectedListing"
-          class="absolute bottom-18 left-1/2 -translate-x-1/2 w-[90%] max-w-[400px] z-[1000]"
+          class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-[400px] z-[1000]"
         >
           <div
             class="bg-white rounded-2xl shadow-xl overflow-hidden flex gap-3 p-3 relative"
