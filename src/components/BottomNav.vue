@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white border-t border-[var(--color-border)] z-999"
+    class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white border-t border-[var(--color-border)] z-[90]"
   >
     <div
       class="flex items-center justify-around py-2 pb-[max(8px,env(safe-area-inset-bottom))]"
@@ -33,14 +33,9 @@ import { useRoute } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import {
   Home,
-  Search,
-  Heart,
-  MessageCircle,
   User,
-  LayoutDashboard,
   Building2,
   ClipboardList,
-  Wallet,
   Plus,
   Shield,
   AlertTriangle,
@@ -52,28 +47,20 @@ const auth = useAuthStore();
 
 function isActive(to) {
   // Exact match for root dashboard routes
-  const roots = ["/tenant", "/owner", "/admin"];
+  const roots = ["/tenant", "/admin"];
   if (roots.includes(to)) return route.path === to;
   return route.path === to || route.path.startsWith(to + "/");
 }
 
 const navItems = computed(() => {
   switch (auth.role) {
-    case "tenant":
+    case "user":
       return [
         { to: "/tenant", icon: Home, label: "Bosh sahifa" },
-        { to: "/tenant/deals", icon: ClipboardList, label: "Bitimlar" },
-        { to: "/tenant/favorites", icon: Heart, label: "Sevimlilar" },
-        { to: "/tenant/chat", icon: MessageCircle, label: "Xabarlar" },
-        { to: "/tenant/profile", icon: User, label: "Profil" },
-      ];
-    case "owner":
-      return [
-        { to: "/owner", icon: LayoutDashboard, label: "Boshqaruv" },
         { to: "/owner/listings", icon: Building2, label: "E'lonlarim" },
         { to: "/owner/create", icon: Plus, label: "Qo'shish" },
-        { to: "/owner/bookings", icon: ClipboardList, label: "Bronlar" },
-        { to: "/owner/profile", icon: User, label: "Profil" },
+        { to: "/tenant/deals", icon: ClipboardList, label: "Bitimlar" },
+        { to: "/tenant/profile", icon: User, label: "Profil" },
       ];
     case "admin":
       return [

@@ -80,14 +80,8 @@
           <div class="flex-1 h-px bg-[var(--color-border)]"></div>
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <button
-            @click="quickLogin('tenant')"
-            class="btn-outline text-xs py-3"
-          >
-            <Home :size="14" /> Ijarachi
-          </button>
-          <button @click="quickLogin('owner')" class="btn-outline text-xs py-3">
-            <Building2 :size="14" /> Uy egasi
+          <button @click="quickLogin('user')" class="btn-outline text-xs py-3">
+            <UserRound :size="14" /> Foydalanuvchi
           </button>
           <button @click="quickLogin('admin')" class="btn-outline text-xs py-3">
             <ShieldCheck :size="14" /> Admin
@@ -108,7 +102,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
-import { Shield, Home, Building2, ShieldCheck } from "lucide-vue-next";
+import { Shield, UserRound, ShieldCheck } from "lucide-vue-next";
 
 const router = useRouter();
 const auth = useAuthStore();
@@ -145,8 +139,7 @@ function handleVerify() {
 function quickLogin(role) {
   auth.loginAs(role);
   const routes = {
-    tenant: "/tenant",
-    owner: "/owner",
+    user: "/tenant",
     admin: "/admin",
   };
   router.push(routes[role]);

@@ -5,7 +5,7 @@
     <div class="px-4 py-4">
       <router-link
         :to="createRoute"
-        class="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-[var(--color-border)] rounded-xl no-underline text-[var(--color-primary)] font-medium mb-5 hover:bg-[var(--color-bg-secondary)] transition-colors"
+        class="flex items-center justify-center gap-2 p-3 border-2 border-dashed border-[var(--color-border)] rounded-xl no-underline text-[var(--color-primary)] font-medium mb-5 hover:bg-[var(--color-bg-secondary)] transition-colors"
       >
         <Plus :size="20" /> Yangi e'lon qo'shish
       </router-link>

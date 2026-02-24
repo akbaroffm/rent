@@ -2,7 +2,7 @@
   <div class="page bg-white">
     <AppHeader :title="isEdit ? 'E\'lonni tahrirlash' : 'Yangi e\'lon'" />
 
-    <div class="px-4 py-4">
+    <div class="px-4 pt-4">
       <!-- Step indicator -->
       <div class="flex items-center gap-1 mb-6">
         <div
@@ -152,7 +152,7 @@
 
         <button
           @click="step = 2"
-          class="btn-primary mt-2"
+          class="btn-primary mt-2 rounded-xl"
           :disabled="!form.title || !form.address"
         >
           Davom etish
@@ -243,10 +243,12 @@
         </div>
 
         <div class="flex gap-3 mt-2">
-          <button @click="step = 1" class="btn-secondary flex-1">Orqaga</button>
+          <button @click="step = 1" class="btn-secondary flex-1 rounded-xl">
+            Orqaga
+          </button>
           <button
             @click="step = 3"
-            class="btn-primary flex-1"
+            class="btn-primary flex-1 rounded-xl"
             :disabled="!form.price"
           >
             Davom etish
@@ -255,7 +257,7 @@
       </div>
 
       <!-- Step 3: Description, Calendar & Submit -->
-      <div v-if="step === 3" class="space-y-4">
+      <div v-if="step === 3" class="space-y-3">
         <h2 class="text-lg font-bold">Tavsif va sanalar</h2>
 
         <div>
@@ -276,84 +278,6 @@
           ></textarea>
         </div>
 
-        <!-- Calendar UI -->
-        <div>
-          <label class="text-sm font-medium mb-2 block">Mavjud sanalar</label>
-          <p class="text-xs text-[var(--color-text-tertiary)] mb-3">
-            Kalendarda boshlang'ich sanani bosing, keyin tugash sanasini bosing
-            (ixtiyoriy)
-          </p>
-
-          <div class="grid grid-cols-2 gap-3 mb-3">
-            <div>
-              <label
-                class="text-xs text-[var(--color-text-secondary)] mb-1 block"
-                >Qachondan bo'sh *</label
-              >
-              <input
-                v-model="form.availableFrom"
-                type="date"
-                class="input-field text-sm"
-              />
-            </div>
-            <div>
-              <label
-                class="text-xs text-[var(--color-text-secondary)] mb-1 block"
-                >Qachongacha (ixtiyoriy)</label
-              >
-              <input
-                v-model="form.availableTo"
-                type="date"
-                class="input-field text-sm"
-              />
-            </div>
-          </div>
-
-          <!-- Calendar visual — click to set dates -->
-          <div class="border border-[var(--color-border)] rounded-xl p-3">
-            <div class="flex items-center justify-between mb-3">
-              <button @click="prevMonth" type="button" class="p-1">
-                <ChevronLeft :size="18" />
-              </button>
-              <span class="font-semibold text-sm">{{ calendarTitle }}</span>
-              <button @click="nextMonth" type="button" class="p-1">
-                <ChevronRight :size="18" />
-              </button>
-            </div>
-            <div class="grid grid-cols-7 gap-1 text-center text-xs">
-              <span
-                v-for="d in ['Du', 'Se', 'Cho', 'Pa', 'Ju', 'Sha', 'Ya']"
-                :key="d"
-                class="text-[var(--color-text-tertiary)] py-1"
-                >{{ d }}</span
-              >
-              <div
-                v-for="(day, i) in calendarDays"
-                :key="i"
-                class="py-1.5 rounded-lg text-xs transition-colors cursor-pointer"
-                :class="getDayClass(day)"
-                @click="onDayClick(day)"
-              >
-                {{ day?.getDate() || "" }}
-              </div>
-            </div>
-            <div class="flex items-center gap-4 mt-3 text-xs">
-              <div class="flex items-center gap-1.5">
-                <div
-                  class="w-3 h-3 rounded-sm bg-[var(--color-success)] border border-[var(--color-success)]"
-                ></div>
-                <span>Boshlanish / Tugash</span>
-              </div>
-              <div class="flex items-center gap-1.5">
-                <div
-                  class="w-3 h-3 rounded-sm bg-[var(--color-success-light)] border border-[var(--color-success)]"
-                ></div>
-                <span>Mavjud kunlar</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- Preview -->
         <div class="bg-[var(--color-bg-secondary)] rounded-xl p-4">
           <h4
@@ -365,10 +289,12 @@
         </div>
 
         <div class="flex gap-3 mt-2">
-          <button @click="step = 2" class="btn-secondary flex-1">Orqaga</button>
+          <button @click="step = 2" class="btn-secondary flex-1 rounded-xl">
+            Orqaga
+          </button>
           <button
             @click="submitListing"
-            class="btn-primary flex-1"
+            class="btn-primary flex-1 rounded-xl"
             :disabled="submitted"
           >
             {{
@@ -401,7 +327,7 @@ import {
 import AppHeader from "@/components/AppHeader.vue";
 import PriceBreakdown from "@/components/PriceBreakdown.vue";
 import MapComponent from "@/components/MapComponent.vue";
-import { X, Camera, ChevronLeft, ChevronRight, Loader2 } from "lucide-vue-next";
+import { X, Camera, Loader2 } from "lucide-vue-next";
 import { watch } from "vue";
 
 function debounce(fn, delay) {
@@ -441,8 +367,6 @@ const form = reactive({
   features: DEFAULT_FEATURES(),
   description: "",
   rules: "",
-  availableFrom: "",
-  availableTo: "",
   geo: { lat: 41.311081, lng: 69.240562 },
 });
 
@@ -509,12 +433,6 @@ watch(
   { deep: true },
 );
 
-function autoDeposit() {
-  if (form.price && !form._depositManual) {
-    form.deposit = form.price;
-  }
-}
-
 // Photo upload
 function handlePhotos(e) {
   const files = Array.from(e.target.files);
@@ -528,103 +446,6 @@ function handlePhotos(e) {
 
 function removePhoto(index) {
   form.photos.splice(index, 1);
-}
-
-// Calendar
-const calendarMonth = ref(new Date().getMonth());
-const calendarYear = ref(new Date().getFullYear());
-
-const calendarTitle = computed(() => {
-  const months = [
-    "Yanvar",
-    "Fevral",
-    "Mart",
-    "Aprel",
-    "May",
-    "Iyun",
-    "Iyul",
-    "Avgust",
-    "Sentabr",
-    "Oktabr",
-    "Noyabr",
-    "Dekabr",
-  ];
-  return `${months[calendarMonth.value]} ${calendarYear.value}`;
-});
-
-const calendarDays = computed(() => {
-  const first = new Date(calendarYear.value, calendarMonth.value, 1);
-  const lastDay = new Date(
-    calendarYear.value,
-    calendarMonth.value + 1,
-    0,
-  ).getDate();
-  let startDay = first.getDay();
-  if (startDay === 0) startDay = 7;
-  startDay--;
-  const days = [];
-  for (let i = 0; i < startDay; i++) days.push(null);
-  for (let d = 1; d <= lastDay; d++) {
-    days.push(new Date(calendarYear.value, calendarMonth.value, d));
-  }
-  return days;
-});
-
-function getDayClass(day) {
-  if (!day) return "";
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  if (day < today)
-    return "text-[var(--color-text-tertiary)] bg-[var(--color-bg-secondary)]";
-  const from = form.availableFrom ? new Date(form.availableFrom) : null;
-  const to = form.availableTo ? new Date(form.availableTo) : null;
-  // Start/end date markers
-  if (from && day.toDateString() === from.toDateString())
-    return "bg-[var(--color-success)] text-white font-bold";
-  if (to && day.toDateString() === to.toDateString())
-    return "bg-[var(--color-success)] text-white font-bold";
-  // Range between from and to
-  if (from && to && day > from && day < to)
-    return "bg-[var(--color-success-light)] text-[var(--color-success)] font-medium";
-  // If only from is set (open-ended), highlight all future days from that date
-  if (from && !to && day > from)
-    return "bg-[var(--color-success-light)] text-[var(--color-success)]";
-  return "hover:bg-[var(--color-bg-secondary)]";
-}
-
-function onDayClick(day) {
-  if (!day) return;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  if (day < today) return;
-  const dateStr = day.toISOString().split("T")[0];
-  if (!form.availableFrom || (form.availableFrom && form.availableTo)) {
-    // First click or reset: set start date
-    form.availableFrom = dateStr;
-    form.availableTo = "";
-  } else {
-    // Second click: set end date (must be after start)
-    if (new Date(dateStr) > new Date(form.availableFrom)) {
-      form.availableTo = dateStr;
-    } else {
-      form.availableFrom = dateStr;
-      form.availableTo = "";
-    }
-  }
-}
-
-function prevMonth() {
-  if (calendarMonth.value === 0) {
-    calendarMonth.value = 11;
-    calendarYear.value--;
-  } else calendarMonth.value--;
-}
-
-function nextMonth() {
-  if (calendarMonth.value === 11) {
-    calendarMonth.value = 0;
-    calendarYear.value++;
-  } else calendarMonth.value++;
 }
 
 // Edit mode — load existing listing
@@ -647,8 +468,6 @@ onMounted(() => {
         features: { ...DEFAULT_FEATURES(), ...listing.features },
         description: listing.description || "",
         rules: listing.rules || "",
-        availableFrom: listing.availableFrom || "",
-        availableTo: listing.availableTo || "",
         geo: listing.geo
           ? { ...listing.geo }
           : { lat: 41.311081, lng: 69.240562 },

@@ -6,7 +6,7 @@
       <!-- Listing summary -->
       <div
         v-if="listing"
-        class="flex gap-3 mb-5 p-3 border border-[var(--color-border)] rounded-xl"
+        class="flex gap-3 mb-4 p-3 border border-[var(--color-border)] rounded-xl"
       >
         <img
           :src="listing.photos[0]"
@@ -27,7 +27,7 @@
       </div>
 
       <!-- Escrow explanation — collapsible -->
-      <div class="bg-[var(--color-info-light)] rounded-xl p-4 mb-5">
+      <div class="bg-[var(--color-info-light)] rounded-xl p-4 mb-4">
         <button
           @click="showEscrowInfo = !showEscrowInfo"
           class="flex items-start gap-3 w-full text-left"
@@ -113,7 +113,7 @@
       <div class="h-px bg-[var(--color-border)] my-5"></div>
 
       <!-- Payment method -->
-      <h3 class="font-semibold mb-3">To'lov usuli</h3>
+      <h3 class="font-semibold mb-2">To'lov usuli</h3>
 
       <div v-if="auth.cards.length > 0" class="space-y-2 mb-4">
         <label
@@ -209,7 +209,7 @@
       </div>
 
       <p
-        class="text-[10px] text-[var(--color-text-tertiary)] text-center italic mb-5"
+        class="text-[10px] text-[var(--color-text-tertiary)] text-center italic mb-4"
       >
         To'lovlar faqat bank kartasi orqali platformada amalga oshiriladi
       </p>
@@ -232,11 +232,36 @@
         </div>
       </div>
 
-      <!-- Submit -->
-      <button @click="handleBook" class="btn-primary" :disabled="booked">
-        <ShieldCheck :size="18" />
-        {{ booked ? "Bron yuborildi ✓" : "Bron qilish" }}
-      </button>
+      <!-- Booking footer -->
+      <div class="mt-6 mb-4 pb-4 border-t border-[var(--color-border)]">
+        <div class="flex items-center gap-3 mt-4">
+          <div class="flex-1">
+            <p class="text-xs text-[var(--color-text-secondary)]">
+              Jami to'lov
+            </p>
+            <p class="text-lg font-bold">
+              {{
+                formatPrice(
+                  (listing?.price || 0) +
+                    calculatePlatformFee(listing?.price || 0),
+                )
+              }}
+            </p>
+          </div>
+          <button
+            @click="handleBook"
+            class="flex-1 flex items-center justify-center gap-1.5 p-2.5 bg-[var(--color-primary)] text-white rounded-lg font-medium text-sm hover:opacity-90 transition-opacity"
+            :disabled="booked"
+          >
+            <span>{{ booked ? "Yuborildi ✓" : "Bron qilish" }}</span>
+          </button>
+        </div>
+        <p
+          class="text-[10px] text-[var(--color-text-tertiary)] text-center mt-2"
+        >
+          Ijara + 3% platforma haqi
+        </p>
+      </div>
     </div>
   </div>
 </template>

@@ -13,7 +13,7 @@ function parseStorage(key, fallback) {
 
 export const useAuthStore = defineStore("auth", () => {
   const user = ref(parseStorage("rent_user", null));
-  const role = ref(localStorage.getItem("rent_role") || null); // tenant, owner, admin
+  const role = ref(localStorage.getItem("rent_role") || null); // user, admin
   const isAuthenticated = computed(() => !!user.value);
   const phone = ref("");
   const smsCode = ref("");
@@ -65,13 +65,16 @@ export const useAuthStore = defineStore("auth", () => {
     role.value = selectedRole;
     localStorage.setItem("rent_role", selectedRole);
     // Find or create mock user
-    const mockUser = mockUsers.find((u) => u.role === selectedRole) || {
-      id: "u_new",
-      name: "Foydalanuvchi",
-      phone: phone.value,
-      role: selectedRole,
-      verified: false,
-    };
+    const mockUser = mockUsers.find((u) => u.role === selectedRole) ||
+      (selectedRole === "user"
+        ? mockUsers.find((u) => u.role === "tenant")
+        : null) || {
+        id: "u_new",
+        name: "Foydalanuvchi",
+        phone: phone.value,
+        role: selectedRole,
+        verified: false,
+      };
     user.value = { ...mockUser, phone: phone.value };
     localStorage.setItem("rent_user", JSON.stringify(user.value));
   }
@@ -80,7 +83,7 @@ export const useAuthStore = defineStore("auth", () => {
     role.value = selectedRole;
     const mockUser =
       mockUsers.find((u) => u.role === selectedRole) || mockUsers[0];
-    user.value = { ...mockUser };
+    user.value = { ...mockUser, role: selectedRole };
     phone.value = mockUser.phone;
     step.value = "done";
 

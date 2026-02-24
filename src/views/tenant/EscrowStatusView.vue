@@ -4,9 +4,9 @@
 
     <div class="px-4 py-4">
       <!-- Status card -->
-      <div class="text-center py-6 mb-5">
+      <div class="text-center py-2 mb-4">
         <div
-          class="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3"
+          class="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-2"
           :class="statusBgClass"
         >
           <component :is="statusIcon" :size="28" :class="statusIconClass" />
@@ -22,7 +22,7 @@
       <!-- Action buttons for CHECKIN_PENDING -->
       <div
         v-if="deal.escrowStatus === 'CHECKIN_PENDING'"
-        class="space-y-3 mb-6"
+        class="space-y-3 mb-4"
       >
         <button @click="confirmCheckin" class="btn-primary">
           <CheckCircle :size="18" /> Ko'chib kirdim (tasdiqlayman)
@@ -140,12 +140,12 @@
       <!-- Active Rental Features -->
       <div
         v-if="deal.escrowStatus === ESCROW_STATUS.RENTAL_ACTIVE"
-        class="mt-6 space-y-6"
+        class="mt-2 space-y-4"
       >
         <!-- Agreement Link -->
         <router-link
           :to="`/shared/agreement/${deal.id}`"
-          class="flex items-center justify-between p-4 bg-white border border-[var(--color-border)] rounded-xl no-underline hover:bg-[var(--color-bg-secondary)]"
+          class="flex items-center justify-between p-3 bg-white border border-[var(--color-border)] rounded-xl no-underline hover:bg-[var(--color-bg-secondary)]"
         >
           <div class="flex items-center gap-3">
             <FileText :size="20" class="text-[var(--color-primary)]" />

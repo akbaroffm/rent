@@ -206,8 +206,6 @@ export const mockListings = [
     utilitiesType: "separate",
     description:
       "Yangi ta'mirlangan, yorug' va shinam kvartira. Metro yaqin, maktab va bog'cha atrofida. Barcha kerakli mebel va texnika mavjud.",
-    availableFrom: "2026-03-01",
-    availableTo: "2026-12-31",
     status: "active",
     views: 234,
     createdAt: "2026-02-20T10:00:00Z",
@@ -256,8 +254,6 @@ export const mockListings = [
     utilitiesType: "included",
     description:
       "Markaz yaqinida joylashgan qulay kvartira. 3 ta alohida xona, keng oshxona va balkon. Oila uchun ideal.",
-    availableFrom: "2026-03-15",
-    availableTo: "2027-03-15",
     status: "active",
     views: 156,
     createdAt: "2026-02-18T14:00:00Z",
@@ -292,8 +288,6 @@ export const mockListings = [
     utilitiesType: "separate",
     description:
       "Talabalar va yolg'iz yashovchilar uchun qulay narxda studiya kvartira. Transport yaqin.",
-    availableFrom: "2026-02-25",
-    availableTo: "2026-08-25",
     status: "active",
     views: 89,
     createdAt: "2026-02-21T09:00:00Z",
@@ -343,8 +337,6 @@ export const mockListings = [
     utilitiesType: "included",
     description:
       "Shahar markazida hashamatli penthouse. Panoramik ko'rinish, premium ta'mir, smart home tizimi. Parking va qo'riqlash kiritilgan.",
-    availableFrom: "2026-03-01",
-    availableTo: "2027-03-01",
     status: "active",
     views: 412,
     createdAt: "2026-02-15T11:00:00Z",
@@ -393,8 +385,6 @@ export const mockListings = [
     utilitiesType: "separate",
     description:
       "Yangi qurilgan binoda zamonaviy kvartira. Bolalar maydoni, 24 soatlik qo'riqlash. Oila uchun ideal muhit.",
-    availableFrom: "2026-03-10",
-    availableTo: "2027-03-10",
     status: "active",
     views: 178,
     createdAt: "2026-02-19T08:00:00Z",
@@ -431,8 +421,6 @@ export const mockListings = [
     utilitiesType: "separate",
     description:
       "Metro bekatiga 5 daqiqa piyoda. Shinam va yorug' kvartira, yangi ta'mir. Yolg'iz yoki juftliklar uchun.",
-    availableFrom: "2026-03-05",
-    availableTo: "2027-03-05",
     status: "active",
     views: 143,
     createdAt: "2026-02-22T07:00:00Z",

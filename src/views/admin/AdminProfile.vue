@@ -4,17 +4,21 @@
 
     <div class="px-4 py-4">
       <!-- Profile card -->
-      <div class="text-center mb-6 pb-5 border-b border-[var(--color-border)]">
-        <div
-          class="w-20 h-20 mx-auto rounded-full bg-[var(--color-bg-secondary)] flex items-center justify-center mb-3"
-        >
-          <Shield :size="32" class="text-[var(--color-primary)]" />
+      <div class="mb-4 bg-[var(--color-bg-secondary)] rounded-2xl p-6">
+        <div class="flex items-start gap-4">
+          <div
+            class="w-16 h-16 rounded-full bg-[var(--color-danger)] flex items-center justify-center shrink-0"
+          >
+            <Shield :size="28" class="text-white" />
+          </div>
+          <div class="flex-1">
+            <h2 class="font-bold text-lg">{{ auth.user?.name }}</h2>
+            <p class="text-sm text-[var(--color-text-secondary)]">
+              {{ auth.user?.phone }}
+            </p>
+            <span class="badge badge-danger mt-2 text-xs">Admin</span>
+          </div>
         </div>
-        <h2 class="font-bold text-lg">{{ auth.user?.name }}</h2>
-        <p class="text-sm text-[var(--color-text-secondary)]">
-          {{ auth.user?.phone }}
-        </p>
-        <span class="badge badge-danger mt-2">Admin</span>
       </div>
 
       <!-- Platform stats -->
@@ -116,16 +120,10 @@
         </p>
         <div class="grid grid-cols-2 gap-2 px-3">
           <button
-            @click="switchRole('tenant')"
+            @click="switchRole('user')"
             class="btn-outline text-xs py-2.5 border border-[var(--color-border)]"
           >
-            Ijarachi
-          </button>
-          <button
-            @click="switchRole('owner')"
-            class="btn-outline text-xs py-2.5 border border-[var(--color-border)]"
-          >
-            Uy egasi
+            Foydalanuvchi
           </button>
           <button
             @click="switchRole('admin')"
@@ -180,8 +178,7 @@ const platformEarnings = computed(() =>
 function switchRole(role) {
   auth.loginAs(role);
   const routes = {
-    tenant: "/tenant",
-    owner: "/owner",
+    user: "/tenant",
     admin: "/admin",
   };
   router.push(routes[role]);

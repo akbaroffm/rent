@@ -4,51 +4,62 @@
 
     <div class="px-4 py-4">
       <!-- Profile card -->
-      <div class="text-center mb-6 pb-5 border-b border-[var(--color-border)]">
-        <div
-          class="w-20 h-20 mx-auto rounded-full bg-[var(--color-bg-secondary)] flex items-center justify-center mb-3"
-        >
-          <Building2 :size="32" class="text-[var(--color-primary)]" />
+      <div class="mb-4 p-6 bg-[var(--color-bg-secondary)] rounded-2xl">
+        <div class="flex items-start gap-4 mb-4">
+          <div
+            class="w-16 h-16 rounded-full bg-[var(--color-primary)] flex items-center justify-center shrink-0"
+          >
+            <Building2 :size="28" class="text-white" />
+          </div>
+          <div class="flex-1">
+            <h2 class="font-bold text-lg">{{ auth.user?.name }}</h2>
+            <p class="text-sm text-[var(--color-text-secondary)]">
+              {{ auth.user?.phone }}
+            </p>
+            <span class="badge badge-info mt-2 text-xs">Foydalanuvchi</span>
+          </div>
         </div>
-        <h2 class="font-bold text-lg">{{ auth.user?.name }}</h2>
-        <p class="text-sm text-[var(--color-text-secondary)]">
-          {{ auth.user?.phone }}
-        </p>
-        <span class="badge badge-info mt-2">Uy egasi</span>
-      </div>
 
-      <!-- Stats -->
-      <div class="grid grid-cols-4 gap-3 mb-6">
-        <div
-          class="bg-[var(--color-bg-secondary)] rounded-xl p-3 text-center col-span-2"
-        >
-          <p class="text-xl font-bold">{{ myListings.length }}</p>
-          <p class="text-[10px] text-[var(--color-text-secondary)]">E'lonlar</p>
-        </div>
-        <div
-          class="bg-[var(--color-bg-secondary)] rounded-xl p-3 text-center col-span-2"
-        >
-          <p class="text-xl font-bold">{{ myDeals.length }}</p>
-          <p class="text-[10px] text-[var(--color-text-secondary)]">Bitimlar</p>
-        </div>
-        <div
-          class="bg-[var(--color-success-light)] rounded-xl p-3 text-center col-span-4"
-        >
-          <p class="text-xl font-bold text-[var(--color-success)]">
-            {{ formatPrice(totalEarnings) }}
-          </p>
-          <p class="text-[10px] text-[var(--color-text-secondary)]">Daromad</p>
+        <!-- Stats in card -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="bg-white backdrop-blur rounded-lg p-3 text-center">
+            <p class="text-lg font-bold text-[var(--color-primary)]">
+              {{ myListings.length }}
+            </p>
+            <p class="text-[10px] text-[var(--color-text-secondary)]">
+              E'lonlar
+            </p>
+          </div>
+          <div class="bg-white backdrop-blur rounded-lg p-3 text-center">
+            <p class="text-lg font-bold text-[var(--color-primary)]">
+              {{ myDeals.length }}
+            </p>
+            <p class="text-[10px] text-[var(--color-text-secondary)]">
+              Bitimlar
+            </p>
+          </div>
         </div>
       </div>
 
       <!-- Menu -->
-      <div class="space-y-1 mb-6">
+      <div class="space-y-1">
         <router-link
           to="/owner/listings"
           class="flex items-center gap-3 p-3 rounded-xl hover:bg-[var(--color-bg-secondary)] transition-colors no-underline text-[var(--color-text)]"
         >
           <Building2 :size="18" class="text-[var(--color-text-secondary)]" />
           <span class="text-sm font-medium flex-1">E'lonlarim</span>
+          <ChevronRight :size="16" class="text-[var(--color-text-tertiary)]" />
+        </router-link>
+        <router-link
+          to="/owner/chat"
+          class="flex items-center gap-3 p-3 rounded-xl hover:bg-[var(--color-bg-secondary)] transition-colors no-underline text-[var(--color-text)]"
+        >
+          <MessageSquare
+            :size="18"
+            class="text-[var(--color-text-secondary)]"
+          />
+          <span class="text-sm font-medium flex-1">Xabarlar</span>
           <ChevronRight :size="16" class="text-[var(--color-text-tertiary)]" />
         </router-link>
         <router-link
@@ -73,7 +84,7 @@
       </div>
 
       <!-- Settings -->
-      <div class="space-y-1 mb-6">
+      <div class="space-y-1 mb-2">
         <button
           class="w-full flex items-center gap-3 p-3 rounded-xl text-left hover:bg-[var(--color-bg-secondary)] transition-colors"
         >
@@ -97,16 +108,10 @@
         </p>
         <div class="grid grid-cols-2 gap-2 px-3">
           <button
-            @click="switchRole('tenant')"
+            @click="switchRole('user')"
             class="btn-outline text-xs py-2.5 border border-[var(--color-border)]"
           >
-            Ijarachi
-          </button>
-          <button
-            @click="switchRole('owner')"
-            class="btn-outline text-xs py-2.5 border border-[var(--color-border)] bg-[var(--color-bg-secondary)]"
-          >
-            Uy egasi
+            Foydalanuvchi
           </button>
           <button
             @click="switchRole('admin')"
@@ -141,6 +146,7 @@ import {
   HelpCircle,
   ChevronRight,
   LogOut,
+  MessageSquare,
 } from "lucide-vue-next";
 
 const router = useRouter();
@@ -163,8 +169,7 @@ const totalEarnings = computed(() =>
 function switchRole(role) {
   auth.loginAs(role);
   const routes = {
-    tenant: "/tenant",
-    owner: "/owner",
+    user: "/tenant",
     admin: "/admin",
   };
   router.push(routes[role]);

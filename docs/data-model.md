@@ -3,6 +3,7 @@
 ## Entities
 
 ### User
+
 ```
 User {
   id: String (UUID)
@@ -22,6 +23,7 @@ User {
 ```
 
 ### Listing
+
 ```
 Listing {
   id: String (UUID)
@@ -53,7 +55,6 @@ Listing {
   }
   rules: String?
   utilities: String?
-  availableFrom: Date
   status: Enum ['active', 'occupied', 'archived']
   views: Int (default: 0)
   createdAt: DateTime
@@ -62,6 +63,7 @@ Listing {
 ```
 
 ### Deal (Booking)
+
 ```
 Deal {
   id: String (UUID)
@@ -86,6 +88,7 @@ Deal {
 ```
 
 ### EscrowStatus (Enum)
+
 ```
 CREATED                    // Bron yaratildi
 AWAITING_OWNER_CONFIRM     // Uy egasi tasdiqlashini kutilmoqda
@@ -99,6 +102,7 @@ CANCELLED                  // Bekor qilindi
 ```
 
 ### EscrowHistory
+
 ```
 EscrowHistory {
   status: EscrowStatus
@@ -108,6 +112,7 @@ EscrowHistory {
 ```
 
 ### Dispute
+
 ```
 Dispute {
   id: String (UUID)
@@ -122,6 +127,7 @@ Dispute {
 ```
 
 ### Conversation
+
 ```
 Conversation {
   id: String (UUID)
@@ -134,6 +140,7 @@ Conversation {
 ```
 
 ### Message
+
 ```
 Message {
   id: String (UUID)
@@ -146,6 +153,7 @@ Message {
 ```
 
 ## Relationships
+
 - User 1 → N Listing (ownerId)
 - User 1 → N Listing (agentId)
 - Listing 1 → N Deal

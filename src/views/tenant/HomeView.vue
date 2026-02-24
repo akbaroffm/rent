@@ -16,7 +16,7 @@
       </template>
     </AppHeader>
 
-    <div class="px-4 pt-4 pb-2">
+    <div class="px-4 pt-4">
       <!-- Search bar -->
       <router-link
         to="/tenant/search"

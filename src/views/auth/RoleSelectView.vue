@@ -48,7 +48,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
-import { Search, Home, Shield } from "lucide-vue-next";
+import { UserRound, Shield } from "lucide-vue-next";
 
 const router = useRouter();
 const auth = useAuthStore();
@@ -56,18 +56,10 @@ const selected = ref(null);
 
 const roles = [
   {
-    value: "tenant",
-    label: "Ijarachi",
-    desc: "Uy qidiraman va ijaraga olaman",
-    icon: Search,
-    bgClass: "bg-[var(--color-info-light)]",
-    iconClass: "text-[var(--color-info)]",
-  },
-  {
-    value: "owner",
-    label: "Uy egasi",
-    desc: "O'z uyimni ijaraga beraman",
-    icon: Home,
+    value: "user",
+    label: "Foydalanuvchi",
+    desc: "E'lon joylayman va ijaraga olaman",
+    icon: UserRound,
     bgClass: "bg-[var(--color-success-light)]",
     iconClass: "text-[var(--color-success)]",
   },
@@ -88,7 +80,7 @@ function selectRole(role) {
 function confirm() {
   if (selected.value) {
     auth.selectRole(selected.value);
-    const routes = { tenant: "/tenant", owner: "/owner", admin: "/admin" };
+    const routes = { user: "/tenant", admin: "/admin" };
     router.push(routes[selected.value]);
   }
 }

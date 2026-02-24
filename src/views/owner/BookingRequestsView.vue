@@ -123,9 +123,9 @@
             </div>
 
             <!-- Applicant Details -->
-            <div class="space-y-4 mb-8">
+            <div class="space-y-4 mb-4">
               <h3
-                class="text-sm font-bold uppercase tracking-widest text-[var(--color-text-secondary)]"
+                class="text-sm font-bold uppercase tracking-widest text-[var(--color-text-secondary)] mb-2"
               >
                 Ijarachi ma'lumotlari
               </h3>
@@ -154,7 +154,7 @@
 
             <!-- Financials -->
             <div
-              class="bg-[var(--color-bg-secondary)] rounded-2xl p-5 space-y-3 mb-8"
+              class="bg-[var(--color-bg-secondary)] rounded-2xl p-5 space-y-3 mb-4"
             >
               <div class="flex justify-between items-center text-sm">
                 <span class="text-[var(--color-text-secondary)]"
@@ -185,13 +185,13 @@
             >
               <button
                 @click="confirmBooking(selectedDeal.id)"
-                class="btn-primary flex-1"
+                class="btn-primary flex-1 rounded-xl"
               >
                 <CheckCircle :size="18" /> Tasdiqlash
               </button>
               <button
                 @click="cancelBooking(selectedDeal.id)"
-                class="btn-secondary flex-1 text-[var(--color-danger)] border-[var(--color-danger)]"
+                class="btn-secondary flex-1 text-[var(--color-danger)] border-[var(--color-danger)] rounded-xl"
               >
                 Rad etish
               </button>

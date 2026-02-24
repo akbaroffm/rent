@@ -26,6 +26,8 @@ import CreateListing from "@/views/owner/CreateListingView.vue";
 import OwnerBookings from "@/views/owner/BookingRequestsView.vue";
 import OwnerPayouts from "@/views/owner/PayoutsView.vue";
 import OwnerProfile from "@/views/owner/OwnerProfile.vue";
+import OwnerChat from "@/views/owner/ChatView.vue";
+import OwnerChatRoom from "@/views/owner/ChatRoom.vue";
 
 // Admin
 import AdminDashboard from "@/views/admin/AdminDashboard.vue";
@@ -102,6 +104,13 @@ const routes = [
   },
   { path: "/owner/bookings", name: "owner-bookings", component: OwnerBookings },
   { path: "/owner/payouts", name: "owner-payouts", component: OwnerPayouts },
+  { path: "/owner/chat", name: "owner-chat", component: OwnerChat },
+  {
+    path: "/owner/chat/:id",
+    name: "owner-chat-room",
+    component: OwnerChatRoom,
+    props: true,
+  },
   { path: "/owner/profile", name: "owner-profile", component: OwnerProfile },
   {
     path: "/owner/notifications",
